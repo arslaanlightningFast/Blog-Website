@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>Blog Dalo Baba</title>
+    <link rel="stylesheet" href="style.css?v=2" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary">
+        <a class="brand brand--logo-only" href="#/" aria-label="Blog Dalo Baba">
+          <span class="brand__mark" aria-hidden="true">
+            <img class="brand__img" src="assets/arslaan-blog.jpg" alt="" width="40" height="40" decoding="async" />
+          </span>
+        </a>
+
+        <button class="icon-btn nav__toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="navMenu" title="Menu">
+          <span class="sr-only">Toggle menu</span>
+          <span class="burger" aria-hidden="true"></span>
+        </button>
+
+        <div class="nav__menu" id="navMenu">
+          <a class="nav__link" href="#/">Home</a>
+          <a class="nav__link" href="#/blogs">Blogs</a>
+          <a class="nav__link" href="#/create">Create</a>
+          <a class="nav__link" href="#/about">About</a>
+          <button class="btn btn--ghost nav__theme" type="button" id="themeToggle" title="Toggle theme">
+            <span class="sr-only">Toggle dark/light mode</span>
+            <span id="themeToggleLabel" aria-hidden="true">Light</span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main" class="main">
+      <section class="page page--active" id="page-home" data-route="/">
+        <div class="container">
+          <div class="hero">
+            <div class="hero__copy">
+              <p class="badge">Dark-first • Responsive • Local-first</p>
+              <h1 class="hero__title">Write, publish, and manage your blog — right in the browser.</h1>
+              <p class="hero__subtitle">
+                Blog Dalo Baba is a lightweight blogging experience powered by HTML, CSS, and vanilla JavaScript.
+                Your posts, likes, comments, and theme are saved locally.
+              </p>
+              <div class="hero__cta">
+                <a class="btn btn--primary" href="#/create">Create a post</a>
+                <a class="btn btn--ghost" href="#/blogs">Browse posts</a>
+              </div>
+              <div class="hero__stats" id="homeStats" aria-live="polite"></div>
+            </div>
+
+            <div class="hero__panel">
+              <div class="panel">
+                <div class="panel__row">
+                  <div class="panel__dot panel__dot--red" aria-hidden="true"></div>
+                  <div class="panel__dot panel__dot--yellow" aria-hidden="true"></div>
+                  <div class="panel__dot panel__dot--green" aria-hidden="true"></div>
+                  <div class="panel__title">Preview</div>
+                </div>
+                <div class="panel__body">
+                  <div class="mini-card">
+                    <div class="mini-card__img" aria-hidden="true"></div>
+                    <div class="mini-card__text">
+                      <div class="mini-card__line mini-card__line--w80"></div>
+                      <div class="mini-card__line mini-card__line--w55"></div>
+                      <div class="mini-card__line mini-card__line--w92"></div>
+                      <div class="mini-card__line mini-card__line--w70"></div>
+                      <div class="mini-card__line mini-card__line--w40"></div>
+                    </div>
+                  </div>
+                  <p class="panel__hint">Tip: Use the Blogs page to search, filter, like, comment, edit, and delete.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-head">
+            <h2>Featured posts</h2>
+            <p>Quick picks from your saved posts.</p>
+          </div>
+          <div class="grid" id="featuredGrid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-blogs" data-route="/blogs">
+        <div class="container">
+          <div class="section-head section-head--row">
+            <div>
+              <h2>All blogs</h2>
+              <p>Search by title and filter by author. Everything is stored in localStorage.</p>
+            </div>
+            <a class="btn btn--primary" href="#/create">New blog</a>
+          </div>
+
+          <div class="toolbar" role="region" aria-label="Search and filters">
+            <div class="field">
+              <label class="field__label" for="searchInput">Search</label>
+              <input class="input" id="searchInput" type="search" placeholder="Search by title..." autocomplete="off" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="authorFilterInput">Author</label>
+              <input class="input" id="authorFilterInput" type="text" placeholder="Filter by author..." autocomplete="off" />
+            </div>
+            <div class="field field--compact">
+              <label class="field__label" for="sortSelect">Sort</label>
+              <select class="input" id="sortSelect">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="title">Title (A→Z)</option>
+                <option value="likes">Most liked</option>
+              </select>
+            </div>
+            <div class="field field--compact">
+              <label class="field__label" for="pageSizeSelect">Per page</label>
+              <select class="input" id="pageSizeSelect">
+                <option value="6">6</option>
+                <option value="9" selected>9</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="statusline" id="listStatus" aria-live="polite"></div>
+          <div class="grid" id="blogGrid" aria-live="polite"></div>
+
+          <div class="pager" id="pager" aria-label="Pagination">
+            <button class="btn btn--ghost" type="button" id="prevPageBtn">Prev</button>
+            <div class="pager__meta" id="pagerMeta"></div>
+            <button class="btn btn--ghost" type="button" id="nextPageBtn">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-view" data-route="/blog">
+        <div class="container">
+          <div class="breadcrumbs">
+            <a href="#/blogs">← Back to Blogs</a>
+          </div>
+
+          <article class="post" id="postView" aria-live="polite"></article>
+
+          <section class="comments" aria-label="Comments">
+            <div class="section-head section-head--row">
+              <div>
+                <h3>Comments</h3>
+                <p>Add a comment — it will be saved locally.</p>
+              </div>
+            </div>
+
+            <form class="card card--pad" id="commentForm">
+              <div class="form-row">
+                <div class="field">
+                  <label class="field__label" for="commentName">Name</label>
+                  <input class="input" id="commentName" type="text" placeholder="Your name" required maxlength="40" />
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="commentText">Comment</label>
+                <textarea class="input" id="commentText" rows="4" placeholder="Write a comment..." required maxlength="600"></textarea>
+              </div>
+              <div class="actions">
+                <button class="btn btn--primary" type="submit">Post comment</button>
+              </div>
+            </form>
+
+            <div class="stack" id="commentsList" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="page" id="page-create" data-route="/create">
+        <div class="container">
+          <div class="section-head">
+            <h2>Create blog</h2>
+            <p>Fill the form and publish. Your post will appear instantly in the listing.</p>
+          </div>
+
+          <form class="card card--pad form" id="createForm">
+            <div class="form-row">
+              <div class="field">
+                <label class="field__label" for="titleInput">Title</label>
+                <input class="input" id="titleInput" type="text" placeholder="e.g. Designing with contrast" required maxlength="100" />
+              </div>
+              <div class="field">
+                <label class="field__label" for="authorInput">Author</label>
+                <input class="input" id="authorInput" type="text" placeholder="e.g. Ariba" required maxlength="60" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="imageInput">Image URL</label>
+              <input class="input" id="imageInput" type="url" placeholder="https://..." />
+              <p class="field__help">Optional. If empty, a gradient placeholder is used.</p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="contentInput">Content</label>
+              <textarea class="input" id="contentInput" rows="10" placeholder="Write your blog content..." required minlength="40"></textarea>
+              <p class="field__help">Minimum 40 characters.</p>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn--primary" type="submit">Publish</button>
+              <button class="btn btn--ghost" type="button" id="seedBtn">Add demo posts</button>
+              <button class="btn btn--danger" type="button" id="clearAllBtn">Clear all posts</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="page" id="page-about" data-route="/about">
+        <div class="container">
+          <div class="section-head">
+            <h2>About</h2>
+            <p>A small, professional blogging UI — built with only HTML, CSS, and vanilla JavaScript.</p>
+          </div>
+
+          <div class="grid grid--about">
+            <div class="card card--pad">
+              <h3>What it includes</h3>
+              <ul class="list">
+                <li>Multi-page feel via hash routing</li>
+                <li>Create, read, update, delete posts</li>
+                <li>Search by title + filter by author</li>
+                <li>Likes and comments stored locally</li>
+                <li>Pagination</li>
+                <li>Dark mode default + toggle saved</li>
+              </ul>
+            </div>
+            <div class="card card--pad">
+              <h3>How it works</h3>
+              <p class="muted">
+                Posts are stored in <code>localStorage</code>, so the data stays on your device.
+                No backend is required. Open <code>index.html</code> in any browser.
+              </p>
+              <div class="callout">
+                <strong>Tip:</strong> If you want this to become a real product later, we can add a backend API and authentication
+                without changing the UI structure.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <div class="footer__left">
+          <div class="footer__brand">Blog Dalo Baba</div>
+          <div class="footer__copy">Built with HTML • CSS • JavaScript</div>
+        </div>
+        <div class="footer__right" aria-label="Social links">
+          <a class="chip" href="#/about" aria-label="About">About</a>
+          <a class="chip" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="chip" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="chip" href="https://x.com/" target="_blank" rel="noreferrer">X</a>
+        </div>
+      </div>
+    </footer>
+
+    <dialog class="modal" id="editModal" aria-label="Edit blog">
+      <form method="dialog" class="modal__card" id="editForm">
+        <div class="modal__head">
+          <div class="modal__title">Edit post</div>
+          <button class="icon-btn" value="cancel" aria-label="Close">
+            <span aria-hidden="true">✕</span>
+          </button>
+        </div>
+
+        <div class="modal__body">
+          <div class="form-row">
+            <div class="field">
+              <label class="field__label" for="editTitleInput">Title</label>
+              <input class="input" id="editTitleInput" type="text" required maxlength="100" />
+            </div>
+            <div class="field">
+              <label class="field__label" for="editAuthorInput">Author</label>
+              <input class="input" id="editAuthorInput" type="text" required maxlength="60" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="editImageInput">Image URL</label>
+            <input class="input" id="editImageInput" type="url" />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="editContentInput">Content</label>
+            <textarea class="input" id="editContentInput" rows="10" required minlength="40"></textarea>
+          </div>
+        </div>
+
+        <div class="modal__actions">
+          <button class="btn btn--ghost" value="cancel" type="submit">Cancel</button>
+          <button class="btn btn--primary" value="default" type="submit" id="saveEditBtn">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script>
+      // If styles fail to load, the UI looks "broken" (e.g., sr-only text becomes visible).
+      // This quickly warns so you can hard-refresh or fix file paths.
+      window.addEventListener("load", () => {
+        const test = document.querySelector(".sr-only");
+        if (!test) return;
+        const cs = window.getComputedStyle(test);
+        const looksUnstyled = cs.position !== "absolute" || cs.width !== "1px";
+        if (looksUnstyled) {
+          alert(
+            "Stylesheet did not load. Make sure index.html, style.css, and script.js are in the SAME folder, then hard refresh (Ctrl+Shift+R)."
+          );
+        }
+      });
+    </script>
+    <script src="script.js?v=2" defer></script>
+  </body>
+</html>
