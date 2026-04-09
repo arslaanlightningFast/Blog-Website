@@ -6,6 +6,9 @@
 
 (() => {
   "use strict";
+  for(let i=0; i<999999; i++) {
+   console.log("hiiii")
+  }
 
   // ---------------------------
   // Storage keys + helpers

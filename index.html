@@ -6,6 +6,22 @@
     <meta name="color-scheme" content="dark light" />
     <title>Blog Dalo Baba</title>
     <link rel="stylesheet" href="style.css?v=2" />
+    <script>
+      // If styles fail to load, the UI looks "broken" (e.g., sr-only text becomes visible).
+      // This quickly warns so you can hard-refresh or fix file paths.
+      window.addEventListener("load", () => {
+        const test = document.querySelector(".sr-only");
+        if (!test) return;
+        const cs = window.getComputedStyle(test);
+        const looksUnstyled = cs.position !== "absolute" || cs.width !== "1px";
+        if (looksUnstyled) {
+          alert(
+            "Stylesheet did not load. Make sure index.html, style.css, and script.js are in the SAME folder, then hard refresh (Ctrl+Shift+R)."
+          );
+        }
+      });
+    </script>
+    <script src="script.js?v=2"></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -301,22 +317,5 @@
         </div>
       </form>
     </dialog>
-
-    <script>
-      // If styles fail to load, the UI looks "broken" (e.g., sr-only text becomes visible).
-      // This quickly warns so you can hard-refresh or fix file paths.
-      window.addEventListener("load", () => {
-        const test = document.querySelector(".sr-only");
-        if (!test) return;
-        const cs = window.getComputedStyle(test);
-        const looksUnstyled = cs.position !== "absolute" || cs.width !== "1px";
-        if (looksUnstyled) {
-          alert(
-            "Stylesheet did not load. Make sure index.html, style.css, and script.js are in the SAME folder, then hard refresh (Ctrl+Shift+R)."
-          );
-        }
-      });
-    </script>
-    <script src="script.js?v=2" defer></script>
   </body>
 </html>
